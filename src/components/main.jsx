@@ -1,8 +1,8 @@
 import React from "react";
 
-//import Topbar from "./topbar.js";
-//import Widget from "./widget.js";
-//import AddWidget from "./addWidget.js";
+import Topbar from "./topbar";
+import Widget from "./widget";
+import AddWidget from "./addWidget";
 import { ttRss } from "../ttrss.js";
 
 function setWidgetsFromStorage(setWidgets) {
@@ -45,5 +45,34 @@ export default function Main({ handleLogin }) {
       });
   }, []);
   console.log("widgets", widgets);
-  return <p>Content</p>;
+  return (
+    <React.Fragment>
+      <Topbar handleLogin={handleLogin} setAddWiget={setAddWiget} />
+      <div className="grid grid-cols-3 gap-4">
+        {widgets.map((widget) => {
+          let widgetFeed = null;
+          for (let feed of feeds) {
+            if (parseInt(feed.id, 10) === parseInt(widget.id, 10)) {
+              widgetFeed = feed;
+              break;
+            }
+          }
+          if (!widgetFeed) {
+            return (
+              <div key={widget.id}>
+                <div>Feed non trovato</div>;
+              </div>
+            );
+          }
+          return <Widget key={widget.id} feed={widgetFeed} size={widget.size} />;
+        })}
+      </div>
+      <AddWidget
+        feeds={feeds}
+        open={isAddWidget}
+        addWidget={addWidget}
+        skip={widgets.map((w) => w.id)}
+      />
+    </React.Fragment>
+  );
 }
