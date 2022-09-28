@@ -4,11 +4,8 @@ export default function WidgetHeader({ feeds, open, addWidget, skip }) {
   if (!open) {
     return <React.Fragment />;
   }
-  const [feedId, setFeedId] = React.useState("");
+  const ref = React.useRef();
 
-  const handleChange = (event) => {
-    setFeedId(event.target.value);
-  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -17,25 +14,25 @@ export default function WidgetHeader({ feeds, open, addWidget, skip }) {
     addWidget(id);
   };
   return (
-    <div className="fade fixed top-0 left-0 w-full h-full outline-none overflow-x-hidden overflow-y-auto">
-      <div className="h-screen w-1/2 mx-auto justify-center">
-        <form onSubmit={handleSubmit}>
-          <h4>Feed to be added</h4>
+    <div
+      onClick={(event) => {
+        if (open && ref.current && !ref.current.contains(event.target)) {
+          addWidget(null);
+        }
+      }}
+      className="bg-neutral-600/50 fade fixed top-0 left-0 w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+    >
+      <div ref={ref} className="w-1/2 mx-auto mt-20 justify-center bg-white p-4 rounded-xl">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <h4 className="text-lg">Feed to be added:</h4>
           <select
-            onChange={handleChange}
             name="feedId"
             className="block
       w-full
       px-3
       py-1.5
-      text-base
-      font-normal
-      text-gray-700
-      bg-white bg-clip-padding bg-no-repeat
       border border-solid border-gray-300
       rounded
-      transition
-      ease-in-out
       m-0
       focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
           >
@@ -49,7 +46,11 @@ export default function WidgetHeader({ feeds, open, addWidget, skip }) {
                 );
               })}
           </select>
-          <button type="submit" disabled={feeds.length < 1 || feedId.length === 0}>
+          <button
+            className="px-7 py-3 bg-blue-600 text-white text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full"
+            type="submit"
+            disabled={feeds.length < 1}
+          >
             Add
           </button>
         </form>
