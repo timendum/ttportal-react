@@ -5,21 +5,25 @@ export default function WidgetPagination({ skip, sizeLimit, setSkip }) {
   const handleChange = (toPage) => {
     setSkip((toPage - 1) * sizeLimit);
   };
-  function makeButton(disabled, selected, newPage) {
+  function makeButton(newPage) {
+    let disabled = newPage === page;
     let text = String(newPage);
     if (newPage === 0) {
       text = "<";
+      disabled = page === 1;
       newPage = page - 1;
     } else if (newPage === -1) {
       text = ">";
       newPage = page + 1;
+    } else if (newPage === "…") {
+      disabled = true;
     }
-    let classes = "px-2 rounded-full w-max";
-    if (selected) {
+    let classes = "px-1 md:px-2 rounded-full";
+    if (newPage == page) {
       classes += " border bg-teal-500 border-teal-500";
     }
     return (
-      <li key={text + String(newPage)}>
+      <li key={text + String(newPage)} className="w-1/12">
         <button className={classes} disabled={disabled} onClick={() => handleChange(newPage)}>
           {text}
         </button>
@@ -27,17 +31,17 @@ export default function WidgetPagination({ skip, sizeLimit, setSkip }) {
     );
   }
   return (
-    <nav>
-      <ul className="px-3 pb-2 flex flex-row gap-3">
-        {makeButton(page === 1, false, 0)}
-        {page > 1 && makeButton(false, false, 1)}
-        {page > 5 && makeButton(true, false, "…")}
-        {[page - 3, page - 2, page - 1]
-          .filter((e) => e > 1)
-          .map((e) => makeButton(false, false, e))}
-        {makeButton(true, true, page)}
-        {[page + 1, page + 2].map((e) => makeButton(false, false, e))}
-        {makeButton(false, false, -1)}
+    <nav className="overflow-hidden">
+      <ul className="px-1 pb-2 flex flex-row gap-0.5 lg:gap-3 md:gap-1">
+        {makeButton(0)}
+        {page > 1 && makeButton(1)}
+        {page > 5 && makeButton("…")}
+        {[page - 3, page - 2, page - 1].filter((e) => e > 1).map((e) => makeButton(e))}
+        {makeButton(page)}
+        {[page + 1, page + 2, page + 3, page + 4, page + 5, page + 6, page + 7]
+          .filter((e) => (page < 7 && e < 9) || e - page < 3)
+          .map((e) => makeButton(e))}
+        {makeButton(-1)}
       </ul>
     </nav>
   );

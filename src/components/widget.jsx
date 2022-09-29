@@ -35,11 +35,11 @@ export default function Widget({ feed, sizeLimit, wType }) {
   };
 
   return (
-    <div className="block border-2 border-slate-700 rounded-lg shadow-lg">
+    <div className="block border lg:border-2 border-slate-700 rounded-lg shadow-lg">
       <WidgetHeader feed={feed} isCollapsed={isCollapsed} handleCommand={handleHeaderCommand} />
       <div className={isCollapsed ? "hidden" : "box"}>
         {rows.length < 1 && <Loading />}
-        <ul className="p-2 space-y-1">
+        <ul className="px-1 lg:p-2 lg:space-y-1">
           {rows.map((row) => {
             return <WidgetLink key={row.id} row={row} wType={wType} />;
           })}
