@@ -20,21 +20,21 @@ export default function WidgetHeader({ feeds, open, addWidget, skip }) {
           addWidget(null);
         }
       }}
-      className="bg-neutral-600/50 fade fixed top-0 left-0 w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+      className="fade fixed top-0 left-0 h-full w-full overflow-y-auto overflow-x-hidden bg-neutral-600/50 outline-none"
     >
-      <div ref={ref} className="w-1/2 mx-auto mt-20 justify-center bg-white p-4 rounded-xl">
+      <div ref={ref} className="mx-auto mt-20 w-1/2 justify-center rounded-xl bg-white p-4">
         <form onSubmit={handleSubmit} className="space-y-4">
           <h4 className="text-lg">Feed to be added:</h4>
           <select
             name="feedId"
-            className="block
+            className="m-0
+      block
       w-full
+      rounded
+      border border-solid border-gray-300
       px-3
       py-1.5
-      border border-solid border-gray-300
-      rounded
-      m-0
-      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+      focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
           >
             {feeds
               .filter((feed) => skip.indexOf(String(feed.id)) == -1)
@@ -47,7 +47,7 @@ export default function WidgetHeader({ feeds, open, addWidget, skip }) {
               })}
           </select>
           <button
-            className="px-7 py-3 bg-blue-600 text-white text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full"
+            className="w-full rounded bg-blue-600 px-7 py-3 text-sm uppercase leading-snug text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
             type="submit"
             disabled={feeds.length < 1}
           >

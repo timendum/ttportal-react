@@ -12,7 +12,12 @@ export default function WidgetLink({ row, wType }) {
   };
 
   return (
-    <li key={row.id} className={"truncate" + (!isRead ? "" : " text-slate-500")}>
+    <li
+      key={row.id}
+      className={
+        "truncate" + (!isRead ? " dark:text-zinc-200" : " text-slate-500 dark:text-zinc-400")
+      }
+    >
       <a
         href={row.link}
         target="_blank"
@@ -23,7 +28,7 @@ export default function WidgetLink({ row, wType }) {
       >
         {row.title}
       </a>
-      {wType === "excerpt" ? <div className="text-sm pl-1 text-sm">{excerpt}</div> : undefined}
+      {wType === "excerpt" ? <div className="pl-1 text-sm">{excerpt}</div> : undefined}
     </li>
   );
 }

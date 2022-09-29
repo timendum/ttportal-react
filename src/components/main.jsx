@@ -43,8 +43,17 @@ export default function Main({ handleLogin }) {
   const [isAddWidget, setAddWiget] = React.useState(false);
   const [widgets, setWidgets] = React.useState([]);
   const [feeds, setFeeds] = React.useState([]);
+  const [darkMode, setDarkMode] = React.useState(false);
   React.useEffect(() => {
     setWidgetsFromStorage(setWidgets);
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      setDarkMode(true);
+    } else {
+      setDarkMode(false);
+    }
   }, []);
   const addWidget = (id) => {
     setAddWiget(false);
@@ -68,16 +77,22 @@ export default function Main({ handleLogin }) {
   }, []);
   console.log("widgets", widgets);
   return (
-    <React.Fragment>
-      <Topbar handleLogin={handleLogin} setAddWiget={setAddWiget} />
-      <div className="flex flex-row md:py-1 xl:py-3 px-1">
-        <div className="basis-1/3 w-1/3	flex flex-col px-1 xl:px-2 gap-1 xl:gap-3">
+    <div className={`${darkMode ? "dark" : ""}`}>
+      <Topbar
+        handleLogin={handleLogin}
+        setAddWiget={setAddWiget}
+        toggleDark={() => {
+          setDarkMode(!darkMode);
+        }}
+      />
+      <div className="flex flex-row px-1 dark:bg-black md:py-1 xl:py-3">
+        <div className="flex w-1/3	basis-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
           {makeWidget(0, widgets, feeds)}
         </div>
-        <div className="basis-1/3 w-1/3	flex flex-col px-1 xl:px-2 gap-1 xl:gap-3">
+        <div className="flex w-1/3	basis-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
           {makeWidget(1, widgets, feeds)}
         </div>
-        <div className="basis-1/3 w-1/3	flex flex-col px-1 xl:px-2 gap-1 xl:gap-3">
+        <div className="flex w-1/3	basis-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
           {makeWidget(2, widgets, feeds)}
         </div>
       </div>
@@ -87,6 +102,6 @@ export default function Main({ handleLogin }) {
         addWidget={addWidget}
         skip={widgets.map((w) => w.id)}
       />
-    </React.Fragment>
+    </div>
   );
 }

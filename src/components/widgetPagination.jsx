@@ -20,7 +20,8 @@ export default function WidgetPagination({ skip, sizeLimit, setSkip }) {
     }
     let classes = "px-1 md:px-2 rounded-full";
     if (newPage == page) {
-      classes += " border bg-teal-500 border-teal-500";
+      classes +=
+        " border bg-teal-500 border-teal-500 dark:text-black dark:border-teal-400 dark:bg-teal-400";
     }
     return (
       <li key={text + String(newPage)} className="w-1/12">
@@ -31,8 +32,8 @@ export default function WidgetPagination({ skip, sizeLimit, setSkip }) {
     );
   }
   return (
-    <nav className="overflow-hidden">
-      <ul className="px-1 pb-2 flex flex-row gap-0.5 lg:gap-3 md:gap-1">
+    <nav className="overflow-hidden dark:text-zinc-400">
+      <ul className="flex flex-row gap-0.5 px-1 pb-2 md:gap-1 lg:gap-3">
         {makeButton(0)}
         {page > 1 && makeButton(1)}
         {page > 5 && makeButton("…")}

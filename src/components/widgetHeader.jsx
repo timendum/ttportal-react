@@ -10,7 +10,7 @@ import {
 
 export default function WidgetHeader({ isCollapsed, feed, handleCommand }) {
   return (
-    <div className="flex gap-2 mx-2">
+    <div className="mx-2 flex gap-2">
       <button
         onClick={() => {
           handleCommand("toggleCollapse");
