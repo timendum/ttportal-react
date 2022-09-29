@@ -8,7 +8,7 @@ const root = createRoot(rootElement);
 
 root.render(
   <React.StrictMode>
-    <div className="container mx-auto">
+    <div className="container min-w-full">
       <App />
     </div>
   </React.StrictMode>

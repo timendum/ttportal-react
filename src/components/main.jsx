@@ -70,14 +70,14 @@ export default function Main({ handleLogin }) {
   return (
     <React.Fragment>
       <Topbar handleLogin={handleLogin} setAddWiget={setAddWiget} />
-      <div className="flex flex-row md:py-1 lg:py-3 px-1">
-        <div className="basis-1/3 w-1/3	flex flex-col px-1 lg:px-2 gap-1 lg:gap-3">
+      <div className="flex flex-row md:py-1 xl:py-3 px-1">
+        <div className="basis-1/3 w-1/3	flex flex-col px-1 xl:px-2 gap-1 xl:gap-3">
           {makeWidget(0, widgets, feeds)}
         </div>
-        <div className="basis-1/3 w-1/3	flex flex-col px-1 lg:px-2 gap-1 lg:gap-3">
+        <div className="basis-1/3 w-1/3	flex flex-col px-1 xl:px-2 gap-1 xl:gap-3">
           {makeWidget(1, widgets, feeds)}
         </div>
-        <div className="basis-1/3 w-1/3	flex flex-col px-1 lg:px-2 gap-1 lg:gap-3">
+        <div className="basis-1/3 w-1/3	flex flex-col px-1 xl:px-2 gap-1 xl:gap-3">
           {makeWidget(2, widgets, feeds)}
         </div>
       </div>
