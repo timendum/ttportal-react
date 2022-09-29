@@ -10,7 +10,7 @@ import {
 
 export default function WidgetHeader({ isCollapsed, feed, handleCommand }) {
   return (
-    <div className="flex">
+    <div className="flex gap-2 mx-2">
       <button
         onClick={() => {
           handleCommand("toggleCollapse");
@@ -27,7 +27,11 @@ export default function WidgetHeader({ isCollapsed, feed, handleCommand }) {
       >
         <FontAwesomeIcon icon={faArrowsRotate} size="xs" />
       </button>
-      <button>
+      <button
+        onClick={() => {
+          handleCommand("toggleConfiguring");
+        }}
+      >
         <FontAwesomeIcon icon={faGear} size="xs" />
       </button>
       <button>

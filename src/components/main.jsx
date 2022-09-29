@@ -17,6 +17,28 @@ function setWidgetsFromStorage(setWidgets) {
   }
 }
 
+function makeWidget(col, widgets, feeds) {
+  return widgets
+    .filter((_, i) => i % 3 === col)
+    .map((widget) => {
+      let widgetFeed = null;
+      for (let feed of feeds) {
+        if (parseInt(feed.id, 10) === parseInt(widget.id, 10)) {
+          widgetFeed = feed;
+          break;
+        }
+      }
+      if (!widgetFeed) {
+        return (
+          <div key={widget.id}>
+            <div>Feed non trovato</div>;
+          </div>
+        );
+      }
+      return <Widget key={widget.id} feed={widgetFeed} size={widget.size} />;
+    });
+}
+
 export default function Main({ handleLogin }) {
   const [isAddWidget, setAddWiget] = React.useState(false);
   const [widgets, setWidgets] = React.useState([]);
@@ -48,24 +70,10 @@ export default function Main({ handleLogin }) {
   return (
     <React.Fragment>
       <Topbar handleLogin={handleLogin} setAddWiget={setAddWiget} />
-      <div className="grid grid-cols-3 gap-4">
-        {widgets.map((widget) => {
-          let widgetFeed = null;
-          for (let feed of feeds) {
-            if (parseInt(feed.id, 10) === parseInt(widget.id, 10)) {
-              widgetFeed = feed;
-              break;
-            }
-          }
-          if (!widgetFeed) {
-            return (
-              <div key={widget.id}>
-                <div>Feed non trovato</div>;
-              </div>
-            );
-          }
-          return <Widget key={widget.id} feed={widgetFeed} size={widget.size} />;
-        })}
+      <div className="flex flex-row gap-4 p-3">
+        <div className="basis-1/3 w-1/3	flex flex-col gap-4">{makeWidget(0, widgets, feeds)}</div>
+        <div className="basis-1/3 w-1/3	flex flex-col gap-4">{makeWidget(1, widgets, feeds)}</div>
+        <div className="basis-1/3 w-1/3	flex flex-col gap-4">{makeWidget(2, widgets, feeds)}</div>
       </div>
       <AddWidget
         feeds={feeds}
