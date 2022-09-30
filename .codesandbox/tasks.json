@@ -29,12 +29,12 @@
       "command": "npm run eject",
       "runAtStart": false
     },
-    "prettier check": {
-      "name": "prettier check",
-      "command": "npx prettier --check ."
+    "prettier write": {
+      "name": "prettier write",
+      "command": "npx prettier -s src"
     },
     "eslint": {
-      "name": "npx eslint --ext .jsx --ext .js src",
+      "name": "eslint",
       "command": "npx eslint --ext .jsx --ext .js src"
     }
   }
