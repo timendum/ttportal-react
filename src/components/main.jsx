@@ -1,5 +1,6 @@
 import React from "react";
 
+import Loading from "./loading";
 import Topbar from "./topbar";
 import Widget from "./widget";
 import AddWidget from "./addWidget";
@@ -17,44 +18,60 @@ function setWidgetsFromStorage(setWidgets) {
   }
 }
 
-function makeWidget(col, widgets, feeds) {
-  return widgets
-    .filter((_, i) => i % 3 === col)
-    .map((widget) => {
-      let widgetFeed = null;
-      for (let feed of feeds) {
-        if (parseInt(feed.id, 10) === parseInt(widget.id, 10)) {
-          widgetFeed = feed;
-          break;
-        }
-      }
-      if (!widgetFeed) {
-        return (
-          <div key={widget.id}>
-            <div>Feed non trovato</div>;
-          </div>
-        );
-      }
-      return <Widget key={widget.id} feed={widgetFeed} size={widget.size} />;
-    });
-}
-
 export default function Main({ handleLogin }) {
   const [isAddWidget, setAddWiget] = React.useState(false);
   const [widgets, setWidgets] = React.useState([]);
-  const [feeds, setFeeds] = React.useState([]);
+  const [feeds, setFeeds] = React.useState(false);
   const [darkMode, setDarkMode] = React.useState(false);
+  /* Init code for theme and widgets from configuration */
   React.useEffect(() => {
-    setWidgetsFromStorage(setWidgets);
+    console.log(1, localStorage);
     if (
       localStorage.theme === "dark" ||
       (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
     ) {
-      setDarkMode(true);
-    } else {
-      setDarkMode(false);
+      if (!darkMode) {
+        changeTheme();
+      }
     }
+    setWidgetsFromStorage(setWidgets);
   }, []);
+  /* Util funct to generate widgets */
+  const makeWidget = (col) => {
+    return widgets
+      .filter((_, i) => i % 3 === col)
+      .map((widget) => {
+        let widgetFeed = null;
+        for (let feed of feeds) {
+          if (parseInt(feed.id, 10) === parseInt(widget.id, 10)) {
+            widgetFeed = feed;
+            break;
+          }
+        }
+        if (!widgetFeed) {
+          return (
+            <div key={widget.id}>
+              <div>Feed not found</div>;
+            </div>
+          );
+        }
+        return (
+          <Widget key={widget.id} feed={widgetFeed} config={widget} updateConfig={updateConfig} />
+        );
+      });
+  };
+  /* Change and persist theme */
+  const changeTheme = () => {
+    console.log(2, darkMode, localStorage);
+    localStorage.setItem("theme", !darkMode ? "dark" : "light");
+    if (!darkMode) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+    setDarkMode(!darkMode);
+  };
+  /* Add widget and persist widgets config */
   const addWidget = (id) => {
     setAddWiget(false);
     if (id) {
@@ -62,6 +79,20 @@ export default function Main({ handleLogin }) {
       localStorage.setItem("TTRssWidgets", JSON.stringify(widgets.concat([{ id: id }])));
     }
   };
+  /* Update and persist widgets config on change */
+  const updateConfig = (widget) => {
+    console.log(widget, widgets);
+    const idx = widgets.findIndex((e) => parseInt(e.id) === parseInt(widget.id));
+    if (idx < 0) {
+      console.log("updateConfig: widget not found", widget);
+      return;
+    }
+    console.log(idx);
+    widgets[idx] = widget;
+    localStorage.setItem("TTRssWidgets", JSON.stringify(widgets));
+    setWidgets(widgets);
+  };
+  /* Init feeds */
   React.useEffect(() => {
     ttRss
       .checkCategories()
@@ -75,27 +106,28 @@ export default function Main({ handleLogin }) {
         setFeeds(feeds);
       });
   }, []);
-  console.log("widgets", widgets);
   return (
-    <div className={`${darkMode ? "dark" : ""}`}>
-      <Topbar
-        handleLogin={handleLogin}
-        setAddWiget={setAddWiget}
-        toggleDark={() => {
-          setDarkMode(!darkMode);
-        }}
-      />
-      <div className="flex flex-row px-1 dark:bg-black md:py-1 xl:py-3">
-        <div className="flex w-1/3	basis-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
-          {makeWidget(0, widgets, feeds)}
+    <div className="min-h-screen dark:bg-black">
+      <Topbar handleLogin={handleLogin} setAddWiget={setAddWiget} toggleDark={changeTheme} />
+
+      {feeds === false && (
+        <div className="py-5">
+          <Loading />
         </div>
-        <div className="flex w-1/3	basis-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
-          {makeWidget(1, widgets, feeds)}
+      )}
+      {feeds !== false && (
+        <div className="flex flex-row px-1 md:py-1 xl:py-3">
+          <div className="flex w-1/3	basis-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
+            {makeWidget(0)}
+          </div>
+          <div className="flex w-1/3	basis-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
+            {makeWidget(1)}
+          </div>
+          <div className="flex w-1/3	basis-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
+            {makeWidget(2)}
+          </div>
         </div>
-        <div className="flex w-1/3	basis-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
-          {makeWidget(2, widgets, feeds)}
-        </div>
-      </div>
+      )}
       <AddWidget
         feeds={feeds}
         open={isAddWidget}

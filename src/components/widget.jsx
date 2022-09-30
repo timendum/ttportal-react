@@ -7,9 +7,11 @@ import WidgetConfig from "./widgetConfig";
 import WidgetLink from "./widgetLink";
 import WidgetPagination from "./widgetPagination";
 
-export default function Widget({ feed, sizeLimit, wType }) {
+export default function Widget({ feed, config, updateConfig }) {
   const [isCollapsed, setCollapsed] = useState(false);
   const [isConfiguring, setConfiguring] = useState(false);
+  const [sizeLimit, setSizeLimit] = useState(config.sizeLimit || 10);
+  const [wType, setWType] = useState(config.wType || "excerpt");
   const [skip, setSkip] = useState(0);
   const [rows, setRows] = useState([]);
   React.useEffect(() => {
@@ -19,7 +21,17 @@ export default function Widget({ feed, sizeLimit, wType }) {
       });
     }
   }, [skip]);
-  const handleHeaderCommand = (name, _) => {
+  React.useEffect(() => {
+    if (!isCollapsed) {
+      if (rows.length < sizeLimit) {
+        ttRss.getContent(feed.id, sizeLimit, skip, false).then((rows) => {
+          setRows(rows);
+        });
+      }
+    }
+  }, [sizeLimit]);
+  const handleCommand = (name, data) => {
+    console.log(name, data);
     if (name === "toggleCollapse") {
       setCollapsed(!isCollapsed);
     } else if (name === "toggleConfiguring") {
@@ -32,17 +44,29 @@ export default function Widget({ feed, sizeLimit, wType }) {
           console.log(rows);
           setRows(rows);
         });
+    } else if (name === "size") {
+      setSizeLimit(parseInt(data, 10));
+    } else if (name === "wType") {
+      setWType(data);
+    } else if (name === "reset") {
+      setSizeLimit(config.sizeLimit || 10);
+      setWType(config.wType || "excerpt");
+    } else if (name === "save") {
+      updateConfig({ id: feed.id, sizeLimit, wType });
+      setConfiguring(false);
     }
   };
 
   return (
     <div className="block rounded-lg border border-slate-700 shadow-lg lg:border-2">
-      <WidgetHeader feed={feed} isCollapsed={isCollapsed} handleCommand={handleHeaderCommand} />
-      <WidgetConfig />
+      <WidgetHeader feed={feed} isCollapsed={isCollapsed} handleCommand={handleCommand} />
+      {isConfiguring && (
+        <WidgetConfig size={sizeLimit} wType={wType} handleCommand={handleCommand} />
+      )}
       <div className={"dark:bg-zinc-800 " + (isCollapsed ? "hidden" : "box")}>
         {rows.length < 1 && <Loading />}
         <ul className="px-1 lg:space-y-1 xl:p-2">
-          {rows.map((row) => {
+          {rows.slice(0, sizeLimit).map((row) => {
             return <WidgetLink key={row.id} row={row} wType={wType} />;
           })}
         </ul>
@@ -51,9 +75,3 @@ export default function Widget({ feed, sizeLimit, wType }) {
     </div>
   );
 }
-
-Widget.defaultProps = {
-  title: "",
-  sizeLimit: 10,
-  wType: "excerpt"
-};

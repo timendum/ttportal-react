@@ -26,14 +26,14 @@ export default function LoginPage({ handleLogin }) {
       .catch(console.log);
   };
   return (
-    <div className="h-screen w-1/2 mx-auto">
+    <div className="mx-auto h-screen w-1/2">
       <form onSubmit={handleSubmit}>
-        <div className="mt-3 block p-6 rounded-lg shadow-lg bg-white ">
-          <h2 className="text-xl mr-4 my-2">Login</h2>
+        <div className="mt-3 block rounded-lg bg-white p-6 shadow-lg ">
+          <h2 className="my-2 mr-4 text-xl">Login</h2>
           <div className="mb-6">
             <input
               type="text"
-              className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              className="form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
               placeholder="Username"
               name="user"
             />
@@ -42,14 +42,14 @@ export default function LoginPage({ handleLogin }) {
             <input
               autoComplete="current-password"
               type="password"
-              className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              className="form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
               placeholder="Password"
               name="password"
             />
           </div>
           <div className="mb-6">
             <input
-              className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              className="form-control m-0 block w-full rounded border border-solid border-gray-300 bg-white bg-clip-padding px-4 py-2 text-xl font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:text-gray-700 focus:outline-none"
               placeholder="Username"
               name="location"
               label="TT-RSS Base URL"
@@ -65,14 +65,14 @@ export default function LoginPage({ handleLogin }) {
           </div>{" "}
           {loginError && (
             <div role="alert">
-              <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+              <div className="rounded-t bg-red-500 px-4 py-2 font-bold text-white">
                 {loginError}
               </div>
             </div>
           )}
           <button
             type="submit"
-            className="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full"
+            className="inline-block w-full rounded bg-blue-600 px-7 py-3 text-sm font-medium uppercase leading-snug text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
             disabled={loading}
           >
             Sign In

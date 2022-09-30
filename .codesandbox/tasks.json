@@ -32,6 +32,10 @@
     "prettier check": {
       "name": "prettier check",
       "command": "npx prettier --check ."
+    },
+    "eslint": {
+      "name": "npx eslint --ext .jsx --ext .js src",
+      "command": "npx eslint --ext .jsx --ext .js src"
     }
   }
 }
