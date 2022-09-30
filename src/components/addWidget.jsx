@@ -10,7 +10,6 @@ export default function WidgetHeader({ feeds, open, addWidget, skip }) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const id = data.get("feedId");
-    console.log(id);
     addWidget(id);
   };
   return (

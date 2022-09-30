@@ -10,7 +10,7 @@ function setWidgetsFromStorage(setWidgets) {
   try {
     const sWidgets = JSON.parse(localStorage.getItem("TTRssWidgets"));
     if (sWidgets && sWidgets.length > 0) {
-      console.log("from storage", sWidgets);
+      console.debug("from storage", sWidgets);
       setWidgets(sWidgets);
     }
   } catch (e) {
@@ -25,7 +25,6 @@ export default function Main({ handleLogin }) {
   const [darkMode, setDarkMode] = React.useState(false);
   /* Init code for theme and widgets from configuration */
   React.useEffect(() => {
-    console.log(1, localStorage);
     if (
       localStorage.theme === "dark" ||
       (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
@@ -62,7 +61,6 @@ export default function Main({ handleLogin }) {
   };
   /* Change and persist theme */
   const changeTheme = () => {
-    console.log(2, darkMode, localStorage);
     localStorage.setItem("theme", !darkMode ? "dark" : "light");
     if (!darkMode) {
       document.body.classList.add("dark");
@@ -81,13 +79,11 @@ export default function Main({ handleLogin }) {
   };
   /* Update and persist widgets config on change */
   const updateConfig = (widget) => {
-    console.log(widget, widgets);
     const idx = widgets.findIndex((e) => parseInt(e.id) === parseInt(widget.id));
     if (idx < 0) {
       console.log("updateConfig: widget not found", widget);
       return;
     }
-    console.log(idx);
     widgets[idx] = widget;
     localStorage.setItem("TTRssWidgets", JSON.stringify(widgets));
     setWidgets(widgets);
@@ -104,6 +100,10 @@ export default function Main({ handleLogin }) {
       })
       .then((feeds) => {
         setFeeds(feeds);
+        setInterval(() => {
+          console.debug("Trigger refresh");
+          ttRss.getFeeds().then(setFeeds);
+        }, 1000 * 60 * 10);
       });
   }, []);
   return (
@@ -116,7 +116,7 @@ export default function Main({ handleLogin }) {
         </div>
       )}
       {feeds !== false && (
-        <div className="flex flex-row px-1 md:py-1 xl:py-3">
+        <div className="flex flex-row px-1 py-1 xl:py-3">
           <div className="flex w-1/3	basis-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
             {makeWidget(0)}
           </div>

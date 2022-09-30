@@ -18,6 +18,7 @@ export default function WidgetConfig({ size, wType, handleCommand }) {
         </select>
         <label className="text-right text-slate-200">Items to display: </label>
         <input
+          className=" pl-1 dark:bg-zinc-800 dark:text-zinc-300"
           onChange={(e) => {
             handleCommand("size", e.currentTarget.value);
           }}
@@ -26,6 +27,7 @@ export default function WidgetConfig({ size, wType, handleCommand }) {
         />
         <label className="text-right text-slate-200">Type: </label>
         <select
+          className=" px-1 dark:bg-zinc-800 dark:text-zinc-300"
           defaultValue={wType}
           onChange={(e) => {
             handleCommand("wType", e.currentTarget.value);
@@ -35,8 +37,12 @@ export default function WidgetConfig({ size, wType, handleCommand }) {
           <option value="excerpt">With excerpt</option>
         </select>
         <div className="col-span-2">
-          <button type="reset">Reset</button>
-          <button type="submit">Save</button>
+          <button className="btn-primary mx-2 bg-slate-500 px-1 md:px-2" type="reset">
+            Reset
+          </button>
+          <button className="btn-primary mx-2 bg-slate-500 px-1 md:px-2" type="submit">
+            Save
+          </button>
         </div>
       </div>
     </form>

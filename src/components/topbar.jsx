@@ -13,7 +13,7 @@ function Button({ onClick, icon, text }) {
   return (
     <button
       onClick={onClick}
-      className="inline-block rounded px-5 py-2.5 text-xs font-medium uppercase leading-tight transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
+      className="btn-primary inline-block px-5 py-2.5 text-xs font-medium leading-tight"
     >
       <FontAwesomeIcon icon={icon} /> {text}
     </button>
@@ -26,13 +26,13 @@ export default function Topbar({ handleLogin, setAddWiget, toggleDark }) {
       <h1 className="grow text-xl">Tiny Tiny RSS</h1>
       <button
         onClick={toggleDark}
-        className="inline-block rounded px-5 py-2.5 text-xs uppercase leading-tight transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg dark:hidden"
+        className="btn-primary inline-block px-5 py-2.5 text-xs leading-tight dark:hidden"
       >
         <FontAwesomeIcon icon={faMoon} />
       </button>
       <button
         onClick={toggleDark}
-        className="hidden rounded px-5 py-2.5 text-xs uppercase leading-tight transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg dark:inline-block"
+        className="btn-primary hidden px-5 py-2.5 text-xs leading-tight dark:inline-block"
       >
         <FontAwesomeIcon icon={faSun} />
       </button>

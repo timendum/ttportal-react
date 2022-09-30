@@ -31,7 +31,6 @@ export default function Widget({ feed, config, updateConfig }) {
     }
   }, [sizeLimit]);
   const handleCommand = (name, data) => {
-    console.log(name, data);
     if (name === "toggleCollapse") {
       setCollapsed(!isCollapsed);
     } else if (name === "toggleConfiguring") {
@@ -41,7 +40,6 @@ export default function Widget({ feed, config, updateConfig }) {
         .getUpdatedContent(feed.id)
         .then(() => ttRss.getContent(feed.id, sizeLimit, skip, false))
         .then((rows) => {
-          console.log(rows);
           setRows(rows);
         });
     } else if (name === "size") {
@@ -63,9 +61,13 @@ export default function Widget({ feed, config, updateConfig }) {
       {isConfiguring && (
         <WidgetConfig size={sizeLimit} wType={wType} handleCommand={handleCommand} />
       )}
-      <div className={"dark:bg-zinc-800 " + (isCollapsed ? "hidden" : "box")}>
+      <div
+        className={
+          "border-t border-slate-700 shadow-lg dark:bg-zinc-800 " + (isCollapsed ? "hidden" : "box")
+        }
+      >
         {rows.length < 1 && <Loading />}
-        <ul className="px-1 lg:space-y-1 xl:p-2">
+        <ul className="px-1 lg:space-y-1 xl:p-2 xl:px-3">
           {rows.slice(0, sizeLimit).map((row) => {
             return <WidgetLink key={row.id} row={row} wType={wType} />;
           })}

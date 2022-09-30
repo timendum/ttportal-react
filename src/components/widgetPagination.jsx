@@ -18,12 +18,12 @@ export default function WidgetPagination({ skip, sizeLimit, setSkip }) {
     } else if (newPage === "…") {
       disabled = true;
     }
-    let classes = "px-1 md:px-2 mx-auto rounded-full";
+    let classes = "px-1 md:px-2 btn-primary mx-auto block";
     if (newPage == page) {
       classes += " bg-teal-500 dark:text-gray-600 dark:border-teal-400 dark:bg-teal-400";
     }
     return (
-      <li key={text + String(newPage)} className="w-1/12">
+      <li key={text + String(newPage)} className="basis-[10%]">
         <button className={classes} disabled={disabled} onClick={() => handleChange(newPage)}>
           {text}
         </button>
@@ -32,7 +32,7 @@ export default function WidgetPagination({ skip, sizeLimit, setSkip }) {
   }
   return (
     <nav className="dark:boder-zinc-400 overflow-hidden border-t border-slate-500 dark:text-zinc-400">
-      <ul className="mx-auto flex flex-row gap-0.5 px-1 py-1 md:gap-1 lg:gap-3">
+      <ul className="mx-auto flex flex-row gap-0.5 px-1 py-1" name="md:gap-1 lg:gap-3">
         {makeButton(0)}
         {page > 1 && makeButton(1)}
         {page > 5 && makeButton("…")}

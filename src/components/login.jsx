@@ -15,7 +15,7 @@ export default function LoginPage({ handleLogin }) {
     ttRss
       .login(data.get("user"), data.get("password"))
       .then((result) => {
-        console.log(result);
+        console.debug("login", result);
         if (result) {
           handleLogin(true);
         } else {
