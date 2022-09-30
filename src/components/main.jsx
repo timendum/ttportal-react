@@ -26,8 +26,8 @@ export default function Main({ handleLogin }) {
   /* Init code for theme and widgets from configuration */
   React.useEffect(() => {
     if (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
+      localStorage.TTRssTheme === "dark" ||
+      (!("TTRssTheme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
     ) {
       if (!darkMode) {
         changeTheme();
@@ -61,7 +61,7 @@ export default function Main({ handleLogin }) {
   };
   /* Change and persist theme */
   const changeTheme = () => {
-    localStorage.setItem("theme", !darkMode ? "dark" : "light");
+    localStorage.setItem("TTRssTheme", !darkMode ? "dark" : "light");
     if (!darkMode) {
       document.body.classList.add("dark");
     } else {

@@ -23,7 +23,7 @@ function Button({ onClick, icon, text }) {
 export default function Topbar({ handleLogin, setAddWiget, toggleDark }) {
   return (
     <div className="flex bg-slate-700 px-4 py-1 text-white shadow-sm dark:text-gray-200">
-      <h1 className="grow text-xl">Tiny Tiny RSS</h1>
+      <h1 className="grow align-text-bottom text-xl">Tiny Tiny RSS</h1>
       <button
         onClick={toggleDark}
         className="btn-primary inline-block px-5 py-2.5 text-xs leading-tight dark:hidden"

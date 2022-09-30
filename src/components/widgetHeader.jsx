@@ -10,17 +10,19 @@ import {
 
 export default function WidgetHeader({ isCollapsed, feed, handleCommand }) {
   return (
-    <div className="flex gap-2 px-2 dark:bg-zinc-800 dark:text-zinc-300">
+    <div className="flex gap-1 px-1 dark:bg-zinc-800 dark:text-zinc-300">
       <button
+        className="btn-primary px-1"
         onClick={() => {
           handleCommand("toggleCollapse");
         }}
       >
         <FontAwesomeIcon icon={isCollapsed ? faCaretUp : faCaretDown} />
       </button>
-      <button>{feed.unread}</button>
-      <h4 className="grow">{feed.title}</h4>
+      <button className="btn-primary text-[1.1rem]] px-1">{feed.unread}</button>
+      <h4 className="grow text-lg">{feed.title}</h4>
       <button
+        className="btn-primary px-1"
         onClick={() => {
           handleCommand("refresh");
         }}
@@ -28,13 +30,14 @@ export default function WidgetHeader({ isCollapsed, feed, handleCommand }) {
         <FontAwesomeIcon icon={faArrowsRotate} size="xs" />
       </button>
       <button
+        className="btn-primary px-1"
         onClick={() => {
           handleCommand("toggleConfiguring");
         }}
       >
         <FontAwesomeIcon icon={faGear} size="xs" />
       </button>
-      <button>
+      <button className="btn-primary px-1">
         <FontAwesomeIcon icon={faXmarkCircle} size="xs" />
       </button>
     </div>
