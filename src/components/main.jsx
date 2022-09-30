@@ -117,13 +117,13 @@ export default function Main({ handleLogin }) {
       )}
       {feeds !== false && (
         <div className="flex flex-row px-1 py-1 xl:py-3">
-          <div className="flex w-1/3	basis-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
+          <div className="flex w-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
             {makeWidget(0)}
           </div>
-          <div className="flex w-1/3	basis-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
+          <div className="flex w-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
             {makeWidget(1)}
           </div>
-          <div className="flex w-1/3	basis-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
+          <div className="flex w-1/3 flex-col gap-1 px-1 xl:gap-3 xl:px-2">
             {makeWidget(2)}
           </div>
         </div>
