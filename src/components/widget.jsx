@@ -59,15 +59,13 @@ export default function Widget({ feed, config, updateConfig }) {
   };
 
   return (
-    <div className="block rounded-lg border border-slate-700 shadow-lg lg:border-2">
+    <div className="block rounded-lg border border-slate-700 shadow-md shadow-slate-500 dark:shadow-slate-800 lg:border-2">
       <WidgetHeader feed={feed} isCollapsed={isCollapsed} handleCommand={handleCommand} />
       {isConfiguring && (
         <WidgetConfig size={sizeLimit} wType={wType} handleCommand={handleCommand} />
       )}
       <div
-        className={
-          "border-t border-slate-700 shadow-lg dark:bg-zinc-800 " + (isCollapsed ? "hidden" : "box")
-        }
+        className={"border-t border-slate-700 dark:bg-zinc-800 " + (isCollapsed ? "hidden" : "box")}
       >
         {rows.length < 1 && <Loading />}
         {rows.length > 0 && (
