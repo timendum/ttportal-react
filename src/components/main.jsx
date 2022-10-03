@@ -73,7 +73,8 @@ export default function Main({ handleLogin }) {
   const addWidget = (id) => {
     setAddWiget(false);
     if (id) {
-      setWidgets(widgets.concat([{ id: id }]));
+      const newArray = [...widgets];
+      setWidgets(newArray.concat([{ id: id }]));
       localStorage.setItem("TTRssWidgets", JSON.stringify(widgets.concat([{ id: id }])));
     }
   };
@@ -84,9 +85,14 @@ export default function Main({ handleLogin }) {
       console.log("updateConfig: widget not found", widget);
       return;
     }
-    widgets[idx] = widget;
-    localStorage.setItem("TTRssWidgets", JSON.stringify(widgets));
-    setWidgets(widgets);
+    const newArray = [...widgets];
+    if (widget.remove === true) {
+      newArray.splice(idx, 1);
+    } else {
+      newArray[idx] = widget;
+    }
+    localStorage.setItem("TTRssWidgets", JSON.stringify(newArray));
+    setWidgets(newArray);
   };
   /* Init feeds */
   React.useEffect(() => {

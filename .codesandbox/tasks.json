@@ -31,7 +31,7 @@
     },
     "prettier write": {
       "name": "prettier write",
-      "command": "npx prettier -s src"
+      "command": "npx prettier -w src"
     },
     "eslint": {
       "name": "eslint",

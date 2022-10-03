@@ -52,6 +52,9 @@ export default function Widget({ feed, config, updateConfig }) {
     } else if (name === "save") {
       updateConfig({ id: feed.id, sizeLimit, wType });
       setConfiguring(false);
+    } else if (name === "remove") {
+      updateConfig({ id: feed.id, remove: true });
+      setConfiguring(false);
     }
   };
 
@@ -67,12 +70,16 @@ export default function Widget({ feed, config, updateConfig }) {
         }
       >
         {rows.length < 1 && <Loading />}
-        <ul className="px-1 lg:space-y-1 xl:p-2 xl:px-3">
-          {rows.slice(0, sizeLimit).map((row) => {
-            return <WidgetLink key={row.id} row={row} wType={wType} />;
-          })}
-        </ul>
-        <WidgetPagination skip={skip} sizeLimit={sizeLimit} setSkip={setSkip} />
+        {rows.length > 0 && (
+          <ul className="px-1 lg:space-y-1 xl:p-2 xl:px-3">
+            {rows.slice(0, sizeLimit).map((row) => {
+              return <WidgetLink key={row.id} row={row} wType={wType} />;
+            })}
+          </ul>
+        )}
+        {rows.length >= sizeLimit && (
+          <WidgetPagination skip={skip} sizeLimit={sizeLimit} setSkip={setSkip} />
+        )}
       </div>
     </div>
   );

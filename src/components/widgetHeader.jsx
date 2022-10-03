@@ -37,7 +37,12 @@ export default function WidgetHeader({ isCollapsed, feed, handleCommand }) {
       >
         <FontAwesomeIcon icon={faGear} size="xs" />
       </button>
-      <button className="btn-primary px-1">
+      <button
+        className="btn-primary px-1"
+        onClick={() => {
+          handleCommand("remove");
+        }}
+      >
         <FontAwesomeIcon icon={faXmarkCircle} size="xs" />
       </button>
     </div>
