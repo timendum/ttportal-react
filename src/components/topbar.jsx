@@ -26,15 +26,10 @@ export default function Topbar({ handleLogin, setAddWiget, toggleDark }) {
       <h1 className="grow align-text-bottom text-xl">Tiny Tiny RSS</h1>
       <button
         onClick={toggleDark}
-        className="btn-primary inline-block px-5 py-2.5 text-xs leading-tight dark:hidden"
+        className="btn-primary inline-block px-5 py-2.5 text-xs leading-tight"
       >
-        <FontAwesomeIcon icon={faMoon} />
-      </button>
-      <button
-        onClick={toggleDark}
-        className="btn-primary hidden px-5 py-2.5 text-xs leading-tight dark:inline-block"
-      >
-        <FontAwesomeIcon icon={faSun} />
+        <FontAwesomeIcon icon={faMoon} className="dark:hidden" />
+        <FontAwesomeIcon icon={faSun} className="hidden dark:inline-block" />
       </button>
       <Button onClick={() => setAddWiget(true)} icon={faSquarePlus} text="Add Widget" />
       <Button icon={faFileExport} text="Export" />

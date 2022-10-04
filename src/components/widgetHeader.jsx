@@ -10,7 +10,7 @@ import {
 
 export default function WidgetHeader({ isCollapsed, feed, handleCommand }) {
   return (
-    <div className="flex gap-1 px-1 dark:bg-zinc-800 dark:text-zinc-300">
+    <div className="flex gap-1 px-1 dark:text-zinc-300">
       <button
         className="btn-primary px-1"
         onClick={() => {

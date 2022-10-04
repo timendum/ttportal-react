@@ -15,7 +15,7 @@ export default function WidgetLink({ row, wType }) {
     <li
       key={row.id}
       className={
-        "truncate" + (!isRead ? " dark:text-zinc-200" : " text-slate-600 dark:text-zinc-400")
+        "truncate" + (!isRead ? " dark:text-zinc-200" : " text-slate-400 dark:text-zinc-400")
       }
     >
       <a
