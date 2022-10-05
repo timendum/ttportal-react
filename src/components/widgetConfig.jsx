@@ -1,6 +1,6 @@
 import React from "react";
 
-import {colors} from "./constants";
+import { colors } from "./constants";
 
 export default function WidgetConfig({ size, wType, color, handleCommand }) {
   const handleReset = () => {

@@ -28,7 +28,11 @@ export default function WidgetLink({ row, wType, updateLink }) {
       >
         {row.title}
       </a>
-      {wType === "excerpt" ? <div className="pl-1 text-sm" title={excerpt}>{excerpt}</div> : undefined}
+      {wType === "excerpt" ? (
+        <div className="pl-1 text-sm" title={excerpt}>
+          {excerpt}
+        </div>
+      ) : undefined}
     </li>
   );
 }

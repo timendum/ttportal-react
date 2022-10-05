@@ -1,6 +1,6 @@
 import React from "react";
 
-import {colors} from "./constants";
+import { colors } from "./constants";
 import Loading from "./loading";
 import Topbar from "./topbar";
 import Widget from "./widget";
@@ -19,12 +19,58 @@ function setWidgetsFromStorage(setWidgets) {
   }
 }
 
+const refreshUnread = function (feeds, widgets) {
+  const ids = widgets.map((w) => parseInt(w.id, 10));
+  let c = feeds
+    .filter((e) => ids.indexOf(e.id) > -1)
+    .map((e) => e.unread)
+    .reduce((a, b) => a + b, 0);
+  var link = document.querySelector('link[type="image/x-icon"]');
+  if (!link.dataset.originalUrl) {
+    link.dataset.originalUrl = link.href;
+  }
+  if (c < 1) {
+    link.href = link.dataset.originalUrl;
+    document.title = "Tiny Tiny Portal";
+    return;
+  }
+  document.title = "Tiny Tiny Portal (" + c + ")";
+  if (c > 99) {
+    c = "\u221E";
+  }
+  var canvas = document.getElementById("faviconc");
+  canvas.width = 32;
+  canvas.height = 32;
+  var ctx = canvas.getContext("2d");
+  var img = new Image();
+  img.src = "./faviconblank.png";
+  img.onload = function () {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0);
+    ctx.fillStyle = "#FFF";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.strokeStyle = "#8B0000";
+    ctx.font = "bold 21px sans-serif";
+    ctx.lineWidth = 4;
+    ctx.strokeText(c, 16, 18);
+    ctx.fillText(c, 16, 18);
+
+    link.href = canvas.toDataURL("image/x-icon");
+  };
+};
+
 export default function Main({ handleLogin }) {
   const [isAddWidget, setAddWiget] = React.useState(false);
   const [widgets, setWidgets] = React.useState([]);
   const [feeds, setFeeds] = React.useState(false);
   const [darkMode, setDarkMode] = React.useState(false);
   /* Init code for theme and widgets from configuration */
+  React.useEffect(() => {
+    if (feeds && widgets.length > 0) {
+      refreshUnread(feeds, widgets);
+    }
+  }, [widgets, feeds]);
   React.useEffect(() => {
     if (
       localStorage.TTRssTheme === "dark" ||
@@ -41,9 +87,9 @@ export default function Main({ handleLogin }) {
     return widgets
       .filter((_, i) => i % 3 === col)
       .map((widget, i) => {
-          if (!Object.prototype.hasOwnProperty.call(widget, "id")) {
-              return <div key={"index-" + i}/>
-          }
+        if (!Object.prototype.hasOwnProperty.call(widget, "id")) {
+          return <div key={"index-" + i} />;
+        }
         let widgetFeed = null;
         for (let feed of feeds) {
           if (parseInt(feed.id, 10) === parseInt(widget.id, 10)) {
@@ -77,14 +123,14 @@ export default function Main({ handleLogin }) {
   const addWidget = (id) => {
     setAddWiget(false);
     if (id) {
-      const currentColors = widgets.map(w => w.color);
-      let missingColors = colors.filter(e => currentColors.indexOf(e) === -1);
+      const currentColors = widgets.map((w) => w.color);
+      let missingColors = colors.filter((e) => currentColors.indexOf(e) === -1);
       let newColor = colors[widgets.length % colors.length];
-      if (missingColors.length > 0 ) {
-          newColor = missingColors[0];
+      if (missingColors.length > 0) {
+        newColor = missingColors[0];
       }
       const newArray = [...widgets];
-      setWidgets(newArray.concat([{ id: id, color:newColor }]));
+      setWidgets(newArray.concat([{ id: id, color: newColor }]));
       localStorage.setItem("TTRssWidgets", JSON.stringify(widgets.concat([{ id: id }])));
     }
   };
