@@ -17,7 +17,7 @@ export default function WidgetConfig({ size, wType, color, handleCommand }) {
       onReset={handleReset}
       onSubmit={handleSave}
     >
-      <div className="grid grid-cols-2 gap-x-4 gap-y-4 text-right">
+      <div className="grid grid-cols-2 gap-2 lg:gap-4 text-right">
         <label className="text-slate-200">Color:</label>
         <select
           defaultValue={color}
@@ -53,10 +53,10 @@ export default function WidgetConfig({ size, wType, color, handleCommand }) {
           <option value="excerpt">With excerpt</option>
         </select>
         <div className="col-span-2">
-          <button className="btn-primary mx-2 bg-slate-500 px-1 md:px-2" type="reset">
+          <button className="btn-primary mx-2 bg-blue-800 text-slate-200 px-1 md:px-2" type="reset">
             Reset
           </button>
-          <button className="btn-primary mx-2 bg-slate-500 px-1 md:px-2" type="submit">
+          <button className="btn-primary mx-2 bg-blue-800 text-slate-200  px-1 md:px-2" type="submit">
             Save
           </button>
         </div>

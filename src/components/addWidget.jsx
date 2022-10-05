@@ -51,7 +51,7 @@ export default function AddWidget({ feeds, open, addWidget, skip }) {
               })}
           </select>
           <button
-            className="w-full rounded bg-blue-800 px-7 py-3 text-sm uppercase leading-snug text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
+            className="btn-primary w-full bg-blue-800 px-7 py-3 text-sm leading-snug text-slate-200"
             type="submit"
             disabled={feeds.length < 1}
           >
