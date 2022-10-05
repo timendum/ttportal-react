@@ -7,6 +7,13 @@ a {
   text-decoration-thickness: 1px;
 }
 
+
+@layer base {
+  html {
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Roboto, Arial, "Noto Sans", sans-serif;
+  }
+}
+
 .btn-primary {
   @apply rounded uppercase transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg disabled:bg-inherit disabled:hover:bg-inherit;
 }

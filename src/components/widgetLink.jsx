@@ -22,7 +22,7 @@ export default function WidgetLink({ row, wType, updateLink }) {
         href={row.link}
         target="_blank"
         className="underline"
-        title={wType === "excerpt" ? row.title : row.excerpt}
+        title={wType === "excerpt" ? row.title : excerpt}
         rel="noreferrer"
         onMouseDown={!isRead ? markRead : undefined}
       >
