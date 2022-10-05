@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import he from "he";
 
 import { ttRss } from "../ttrss.js";
 
-export default function WidgetLink({ row, wType }) {
-  const [isRead, setRead] = useState(!row.unread);
+export default function WidgetLink({ row, wType, updateLink }) {
+  const isRead = !row.unread;
   const excerpt = he.decode(row.excerpt).trim();
   const markRead = () => {
-    ttRss.markReadItem(row.id);
-    setRead(true);
+    ttRss.markReadItems([row.id]).then(() => {
+      updateLink(row.id);
+    });
   };
 
   return (
     <li
-      key={row.id}
       className={
         "truncate" + (!isRead ? " dark:text-zinc-200" : " text-slate-400 dark:text-zinc-400")
       }

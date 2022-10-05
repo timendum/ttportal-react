@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function WidgetConfig({ size, wType, color, handleCommand }) {
-  const handleReset = (event) => {
+  const handleReset = () => {
     //event.preventDefault();
     handleCommand("reset");
   };

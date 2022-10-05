@@ -41,7 +41,7 @@ export default function WidgetHeader({ feeds, open, addWidget, skip }) {
       focus:bg-white focus:text-gray-700 focus:outline-none dark:bg-slate-200"
           >
             {feeds
-              .filter((feed) => skip.indexOf(String(feed.id)) == -1)
+              .filter((feed) => String(skip).indexOf(String(feed.id)) == -1)
               .map((feed) => {
                 return (
                   <option key={feed.id} value={feed.id}>

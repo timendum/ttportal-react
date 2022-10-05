@@ -15,6 +15,7 @@ export default function Widget({ feed, config, updateConfig }) {
   const [color, setColor] = useState(config.color || "gray");
   const [skip, setSkip] = useState(0);
   const [rows, setRows] = useState([]);
+  const [unread, setUnread] = useState(feed.unread);
   React.useEffect(() => {
     if (!isCollapsed) {
       ttRss.getContent(feed.id, sizeLimit, skip, false).then((rows) => {
@@ -39,8 +40,11 @@ export default function Widget({ feed, config, updateConfig }) {
     } else if (name === "refresh") {
       ttRss
         .getUpdatedContent(feed.id)
-        .then(() => ttRss.getContent(feed.id, sizeLimit, skip, false))
+        .then(() => {
+          return ttRss.getContent(feed.id, sizeLimit, skip, false);
+        })
         .then((rows) => {
+          setUnread(feed.unread);
           setRows(rows);
         });
     } else if (name === "size") {
@@ -60,12 +64,49 @@ export default function Widget({ feed, config, updateConfig }) {
     } else if (name === "remove") {
       updateConfig({ id: feed.id, remove: true });
       setConfiguring(false);
+    } else if (name === "readAll") {
+      const countNumber = rows.filter((e) => e.unread).length;
+      let markAction = () => {
+        return ttRss.markReadFeed(feed.id);
+      };
+      if (countNumber === unread) {
+        markAction = () => {
+          return ttRss.markReadItems(rows.filter((e) => e.unread).map((e) => e.id));
+        };
+      }
+      markAction().then(() => {
+        const newRows = [...rows];
+        for (let row of newRows) {
+          row.unread = false;
+        }
+        setUnread(0);
+        setRows(newRows);
+      });
+    }
+  };
+  const updateLink = (id) => {
+    for (let row of rows) {
+      if (row.id === id) {
+        if (row.unread) {
+          row.unread = false;
+          if (unread > -1) {
+            setUnread(unread - 1);
+          }
+          setRows(rows);
+          break;
+        }
+      }
     }
   };
 
   return (
     <div className={`block rounded-lg border widget-${color} shadow lg:border-2`}>
-      <WidgetHeader feed={feed} isCollapsed={isCollapsed} handleCommand={handleCommand} />
+      <WidgetHeader
+        feed={feed}
+        unread={unread}
+        isCollapsed={isCollapsed}
+        handleCommand={handleCommand}
+      />
       {isConfiguring && (
         <WidgetConfig size={sizeLimit} wType={wType} color={color} handleCommand={handleCommand} />
       )}
@@ -75,7 +116,7 @@ export default function Widget({ feed, config, updateConfig }) {
           {rows.length > 0 && (
             <ul className="px-1 lg:space-y-1 xl:p-2 xl:px-3">
               {rows.slice(0, sizeLimit).map((row) => {
-                return <WidgetLink key={row.id} row={row} wType={wType} />;
+                return <WidgetLink key={row.id} row={row} wType={wType} updateLink={updateLink} />;
               })}
             </ul>
           )}

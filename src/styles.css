@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .btn-primary {
-  @apply rounded uppercase transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg disabled:bg-inherit;
+  @apply rounded uppercase transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg disabled:bg-inherit disabled:hover:bg-inherit;
 }
 .widget-red {
   @apply border-red-500 bg-red-500 shadow-red-500 dark:border-red-700 dark:bg-red-700 dark:shadow-red-800;
