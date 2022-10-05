@@ -37,6 +37,10 @@ export default function Widget({ feed, config, updateConfig, updateFeed }) {
       setCollapsed(!isCollapsed);
     } else if (name === "toggleConfiguring") {
       setConfiguring(!isConfiguring);
+      setSizeLimit(config.sizeLimit || 10);
+      setWType(config.wType || "excerpt");
+      setSizeLimit(config.sizeLimit || 10);
+      setColor(config.color || "gray");
     } else if (name === "refresh") {
       ttRss
         .getUpdatedContent(feed.id)
