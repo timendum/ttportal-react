@@ -24,7 +24,7 @@ export default function WidgetLink({ row, wType }) {
         className="underline"
         title={excerpt}
         rel="noreferrer"
-        onClick={!isRead ? markRead : undefined}
+        onMouseDown={!isRead ? markRead : undefined}
       >
         {row.title}
       </a>
