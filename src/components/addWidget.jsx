@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function WidgetHeader({ feeds, open, addWidget, skip }) {
+export default function AddWidget({ feeds, open, addWidget, skip }) {
   if (!open) {
     return <React.Fragment />;
   }
@@ -41,7 +41,7 @@ export default function WidgetHeader({ feeds, open, addWidget, skip }) {
       focus:bg-white focus:text-gray-700 focus:outline-none dark:bg-slate-200"
           >
             {feeds
-              .filter((feed) => String(skip).indexOf(String(feed.id)) == -1)
+              .filter((feed) => skip.indexOf(parseInt(feed.id, 10)) === -1)
               .map((feed) => {
                 return (
                   <option key={feed.id} value={feed.id}>

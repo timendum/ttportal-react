@@ -1,5 +1,7 @@
 import React from "react";
 
+import {colors} from "./constants";
+
 export default function WidgetConfig({ size, wType, color, handleCommand }) {
   const handleReset = () => {
     //event.preventDefault();
@@ -24,7 +26,7 @@ export default function WidgetConfig({ size, wType, color, handleCommand }) {
             handleCommand("color", e.currentTarget.value);
           }}
         >
-          {["red", "amber", "green", "indigo", "gray", "fuchsia"].map((e) => (
+          {colors.map((e) => (
             <option key={e} value={e} className={`widget-${e} dark:text-zinc-300`}>
               {e[0].toUpperCase() + e.substring(1)}
             </option>

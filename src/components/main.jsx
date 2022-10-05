@@ -1,5 +1,6 @@
 import React from "react";
 
+import {colors} from "./constants";
 import Loading from "./loading";
 import Topbar from "./topbar";
 import Widget from "./widget";
@@ -39,7 +40,10 @@ export default function Main({ handleLogin }) {
   const makeWidget = (col) => {
     return widgets
       .filter((_, i) => i % 3 === col)
-      .map((widget) => {
+      .map((widget, i) => {
+          if (!Object.prototype.hasOwnProperty.call(widget, "id")) {
+              return <div key={"index-" + i}/>
+          }
         let widgetFeed = null;
         for (let feed of feeds) {
           if (parseInt(feed.id, 10) === parseInt(widget.id, 10)) {
@@ -73,8 +77,14 @@ export default function Main({ handleLogin }) {
   const addWidget = (id) => {
     setAddWiget(false);
     if (id) {
+      const currentColors = widgets.map(w => w.color);
+      let missingColors = colors.filter(e => currentColors.indexOf(e) === -1);
+      let newColor = colors[widgets.length % colors.length];
+      if (missingColors.length > 0 ) {
+          newColor = missingColors[0];
+      }
       const newArray = [...widgets];
-      setWidgets(newArray.concat([{ id: id }]));
+      setWidgets(newArray.concat([{ id: id, color:newColor }]));
       localStorage.setItem("TTRssWidgets", JSON.stringify(widgets.concat([{ id: id }])));
     }
   };
@@ -132,7 +142,7 @@ export default function Main({ handleLogin }) {
         feeds={feeds}
         open={isAddWidget}
         addWidget={addWidget}
-        skip={widgets.map((w) => w.id)}
+        skip={widgets.map((w) => parseInt(w.id, 10))}
       />
     </div>
   );

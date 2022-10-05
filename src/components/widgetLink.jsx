@@ -22,13 +22,13 @@ export default function WidgetLink({ row, wType, updateLink }) {
         href={row.link}
         target="_blank"
         className="underline"
-        title={excerpt}
+        title={wType === "excerpt" ? row.title : row.excerpt}
         rel="noreferrer"
         onMouseDown={!isRead ? markRead : undefined}
       >
         {row.title}
       </a>
-      {wType === "excerpt" ? <div className="pl-1 text-sm">{excerpt}</div> : undefined}
+      {wType === "excerpt" ? <div className="pl-1 text-sm" title={excerpt}>{excerpt}</div> : undefined}
     </li>
   );
 }
