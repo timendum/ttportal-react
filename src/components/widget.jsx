@@ -7,7 +7,7 @@ import WidgetConfig from "./widgetConfig";
 import WidgetLink from "./widgetLink";
 import WidgetPagination from "./widgetPagination";
 
-export default function Widget({ feed, config, updateConfig }) {
+export default function Widget({ feed, config, updateConfig, updateFeed }) {
   const [isCollapsed, setCollapsed] = useState(false);
   const [isConfiguring, setConfiguring] = useState(false);
   const [sizeLimit, setSizeLimit] = useState(config.sizeLimit || 10);
@@ -15,7 +15,7 @@ export default function Widget({ feed, config, updateConfig }) {
   const [color, setColor] = useState(config.color || "gray");
   const [skip, setSkip] = useState(0);
   const [rows, setRows] = useState([]);
-  const [unread, setUnread] = useState(feed.unread);
+  const unread = feed.unread;
   React.useEffect(() => {
     if (!isCollapsed) {
       ttRss.getContent(feed.id, sizeLimit, skip, false).then((rows) => {
@@ -40,13 +40,22 @@ export default function Widget({ feed, config, updateConfig }) {
     } else if (name === "refresh") {
       ttRss
         .getUpdatedContent(feed.id)
-        .then(() => {
-          return ttRss.getContent(feed.id, sizeLimit, skip, false);
-        })
-        .then((rows) => {
-          setUnread(feed.unread);
-          setRows(rows);
+        .then(() => ttRss.getFeeds())
+        .then((feeds) => {
+          const idx = feeds.findIndex((e) => e.id === feed.id);
+          if (idx < 0) {
+            console.log("refresh: feed not found", feed);
+            return;
+          }
+          updateFeed(feeds[idx]);
         });
+      // .then(() => {
+      //   return ttRss.getContent(feed.id, sizeLimit, skip, false);
+      // })
+      // .then((rows) => {
+      //   //TODO setUnread(feed.unread);
+      //   setRows(rows);
+      // });
     } else if (name === "size") {
       setSizeLimit(parseInt(data, 10));
     } else if (name === "wType") {
@@ -79,7 +88,8 @@ export default function Widget({ feed, config, updateConfig }) {
         for (let row of newRows) {
           row.unread = false;
         }
-        setUnread(0);
+        feed.unread = 0;
+        updateFeed(feed);
         setRows(newRows);
       });
     }
@@ -90,7 +100,8 @@ export default function Widget({ feed, config, updateConfig }) {
         if (row.unread) {
           row.unread = false;
           if (unread > -1) {
-            setUnread(unread - 1);
+            feed.unread = unread - 1;
+            updateFeed(feed);
           }
           setRows(rows);
           break;

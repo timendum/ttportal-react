@@ -25,9 +25,25 @@ const refreshUnread = function (feeds, widgets) {
     .filter((e) => ids.indexOf(e.id) > -1)
     .map((e) => e.unread)
     .reduce((a, b) => a + b, 0);
-  var link = document.querySelector('link[type="image/x-icon"]');
+  const link = document.querySelector('link[type="image/x-icon"]');
   if (!link.dataset.originalUrl) {
     link.dataset.originalUrl = link.href;
+  }
+  if (!link.dataset.blankicon) {
+    // cache blank img
+    let canvas = document.getElementById("faviconc");
+    canvas.width = 32;
+    canvas.height = 32;
+    let ctx = canvas.getContext("2d");
+    let img = new Image();
+    img.src = "./faviconblank.png";
+    img.onload = function () {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+      link.dataset.blankicon = link.href = canvas.toDataURL("image/x-icon");
+      refreshUnread(feeds, widgets);
+    };
+    return;
   }
   if (c < 1) {
     link.href = link.dataset.originalUrl;
@@ -38,12 +54,12 @@ const refreshUnread = function (feeds, widgets) {
   if (c > 99) {
     c = "\u221E";
   }
-  var canvas = document.getElementById("faviconc");
+  let canvas = document.getElementById("faviconc");
   canvas.width = 32;
   canvas.height = 32;
-  var ctx = canvas.getContext("2d");
-  var img = new Image();
-  img.src = "./faviconblank.png";
+  let ctx = canvas.getContext("2d");
+  let img = new Image();
+  img.src = link.dataset.blankicon;
   img.onload = function () {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0);
@@ -105,7 +121,13 @@ export default function Main({ handleLogin }) {
           );
         }
         return (
-          <Widget key={widget.id} feed={widgetFeed} config={widget} updateConfig={updateConfig} />
+          <Widget
+            key={widget.id}
+            feed={widgetFeed}
+            config={widget}
+            updateConfig={updateConfig}
+            updateFeed={updateFeed}
+          />
         );
       });
   };
@@ -149,6 +171,16 @@ export default function Main({ handleLogin }) {
     }
     localStorage.setItem("TTRssWidgets", JSON.stringify(newArray));
     setWidgets(newArray);
+  };
+  const updateFeed = (feed) => {
+    const newFeeds = [...feeds];
+    const idx = newFeeds.findIndex((e) => e.id === feed.id);
+    if (idx < 0) {
+      console.log("updateFeed: feed not found", feed);
+      return;
+    }
+    newFeeds[idx] == feed;
+    setFeeds(newFeeds);
   };
   /* Init feeds */
   React.useEffect(() => {
