@@ -27,19 +27,7 @@ export default function AddWidget({ feeds, open, addWidget, skip }) {
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <h4 className="text-lg dark:text-gray-200">Feed to be added:</h4>
-          <select
-            name="feedId"
-            className="m-0
-      block
-      w-full
-      rounded
-      border border-solid border-gray-300
-      bg-slate-100
-      px-3
-      py-1.5
-      focus:border-blue-600
-      focus:bg-white focus:text-gray-700 focus:outline-none dark:bg-slate-200"
-          >
+          <select name="feedId" className="input-primary block w-full px-3 py-1.5">
             {feeds
               .filter((feed) => skip.indexOf(parseInt(feed.id, 10)) === -1)
               .map((feed) => {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { colors } from "./constants";
+import { colors, darkPreference } from "./utils";
 import Loading from "./loading";
 import Topbar from "./topbar";
 import Widget from "./widget";
@@ -88,10 +88,7 @@ export default function Main({ handleLogin }) {
     }
   }, [widgets, feeds]);
   React.useEffect(() => {
-    if (
-      localStorage.TTRssTheme === "dark" ||
-      (!("TTRssTheme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
+    if (darkPreference()) {
       if (!darkMode) {
         changeTheme();
       }
@@ -151,9 +148,10 @@ export default function Main({ handleLogin }) {
       if (missingColors.length > 0) {
         newColor = missingColors[0];
       }
-      const newArray = [...widgets];
-      setWidgets(newArray.concat([{ id: id, color: newColor }]));
-      localStorage.setItem("TTRssWidgets", JSON.stringify(widgets.concat([{ id: id }])));
+      let newArray = [...widgets];
+      newArray = newArray.concat([{ id: id, color: newColor }]);
+      setWidgets(newArray);
+      localStorage.setItem("TTRssWidgets", JSON.stringify(newArray));
     }
   };
   /* Update and persist widgets config on change */
