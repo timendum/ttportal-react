@@ -115,7 +115,7 @@ export default function Widget({ feed, config, updateConfig, updateFeed }) {
   };
 
   return (
-    <div className={`block rounded-lg border widget-${color} shadow lg:border-2`}>
+    <div className={`block rounded-lg border widget-${color} shadow-md lg:border-2`}>
       <WidgetHeader
         feed={feed}
         unread={unread}
